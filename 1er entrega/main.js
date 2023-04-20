@@ -12,12 +12,12 @@ class ProductManager {
       return;
     }
     if (
-      undefined === title ||
-      undefined === description ||
-      undefined === price ||
-      undefined === thumbail ||
-      undefined === code ||
-      undefined === stock
+      title &&
+      description &&
+      price &&
+      thumbail &&
+      code &&
+      stock == undefined
     ) {
       console.log("Te falta completar un campo");
       return;
@@ -48,12 +48,10 @@ class ProductManager {
     if (findId === -1) {
       console.log("Not Found!!!");
       return;
+    } else {
+      console.log("Found ID!!!");
+      console.log(this.products[findId]);
     }
-    const found = this.products.filter((eLe) => {
-      return eLe.id === id;
-    });
-    console.log("Found ID!!!");
-    console.log(found);
   }
 }
 
@@ -66,4 +64,4 @@ pm.addProduct("tomate", "es una verdura", 800, "http://www.sarasa.com", 333, 2);
 console.log(pm.getProducts());
 pm.getProductById(3);
 
-pm.addProduct("sarasa", "es una sarasa", 800, "http://www.sarasa.com", 444);
+pm.addProduct("sarasa", "es una sarasa", 800, "http://www.sarasa.com");
