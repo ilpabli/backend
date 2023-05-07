@@ -1,0 +1,52 @@
+[
+  {
+    "title": "Naranja",
+    "description": "acida",
+    "code": "ab100",
+    "status": true,
+    "stock": 10,
+    "category": "frutas",
+    "thumbnails": [],
+    "id": 1
+  },
+  {
+    "title": "Manzana",
+    "description": "dulce",
+    "code": "ac100",
+    "status": true,
+    "stock": 10,
+    "category": "frutas",
+    "thumbnails": [],
+    "id": 2
+  },
+  {
+    "title": "Pera",
+    "description": "jugosa",
+    "code": "ad100",
+    "status": true,
+    "stock": 10,
+    "category": "frutas",
+    "thumbnails": [],
+    "id": 3
+  },
+  {
+    "title": "Sandia",
+    "description": "jugosa",
+    "code": "ae100",
+    "status": true,
+    "stock": 10,
+    "category": "frutas",
+    "thumbnails": [],
+    "id": 4
+  },
+  {
+    "title": "Melon",
+    "description": "maduro",
+    "code": "af100",
+    "status": true,
+    "stock": 10,
+    "category": "frutas",
+    "thumbnails": [],
+    "id": 5
+  }
+]
