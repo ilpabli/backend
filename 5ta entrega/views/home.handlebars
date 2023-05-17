@@ -1,0 +1,70 @@
+<header>
+  <nav class="p-3 mb-2 bg-primary text-white">
+    <div class="container-fluid">
+      <p class="fs-1 text-center">
+        Lista de productos
+      </p>
+    </div>
+  </nav>
+</header>
+<main>
+  <section>
+    <div class="container-fluid text-center row">
+      {{#if filtered}}
+        {{#each limitProducts}}
+          <div class="col">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{this.title}}</h5>
+                <p class="card-text">Su estado es:
+                  {{this.description}}
+                  <br />
+                  Precio:
+                  {{this.price}}
+                  <br />
+                  Codigo:
+                  {{this.code}}
+                  <br />
+                  Stock:
+                  {{this.stock}}
+                  <br />
+                  Categoria:
+                  {{this.category}}
+                  <br />
+                  ID:
+                  {{this.id}}</p>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      {{else}}
+        {{#each allProducts}}
+          <div class="col">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{this.title}}</h5>
+                <p class="card-text">Su estado es:
+                  {{this.description}}
+                  <br />
+                  Precio:
+                  {{this.price}}
+                  <br />
+                  Codigo:
+                  {{this.code}}
+                  <br />
+                  Stock:
+                  {{this.stock}}
+                  <br />
+                  Categoria:
+                  {{this.category}}
+                  <br />
+                  ID:
+                  {{this.id}}</p>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      {{/if}}
+    </div>
+  </section>
+</main>

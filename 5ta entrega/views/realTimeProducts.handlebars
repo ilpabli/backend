@@ -1,0 +1,84 @@
+<header>
+  <nav class="p-3 mb-2 bg-primary text-white">
+    <div class="container-fluid">
+      <p class="fs-1 text-center">
+        Lista de productos con Websockets
+      </p>
+    </div>
+  </nav>
+</header>
+<main>
+  <section id="cards" class="container-fluid row text-center"></section>
+  <section id="" class="container-sm row text-center mt-5">
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        required
+        id="title"
+        class="form-control"
+        placeholder="Nombre del producto"
+        aria-label="Nombre del producto"
+      />
+      <span class="input-group-text"></span>
+      <input
+        type="text"
+        required
+        id="description"
+        class="form-control"
+        placeholder="Descripcion del producto"
+        aria-label="Descripcion del producto"
+      />
+      <input
+        type="text"
+        required
+        id="price"
+        class="form-control"
+        placeholder="Precio del producto"
+        aria-label="Precio del producto"
+      />
+    </div>
+
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        required
+        id="code"
+        class="form-control"
+        placeholder="Code del producto"
+        aria-label="Code del producto"
+      />
+      <span class="input-group-text"></span>
+      <input
+        type="text"
+        required
+        id="status"
+        class="form-control"
+        placeholder="Status del producto"
+        aria-label="Status del producto"
+      />
+      <input
+        type="text"
+        required
+        id="stock"
+        class="form-control"
+        placeholder="Stock del producto"
+        aria-label="Stock del producto"
+      />
+      <span class="input-group-text"></span>
+      <input
+        type="text"
+        required
+        id="category"
+        class="form-control"
+        placeholder="Categoria del producto"
+        aria-label="Categoria del producto"
+      />
+      <button id="send" class="btn btn-primary" onclick="sendProduct()">Agregar
+        Producto</button>
+    </div>
+  </section>
+</main>
+<!-- Incluimos el script de Socket.io -->
+<script src="/socket.io/socket.io.js"></script>
+<!-- Incluimos nuestro script -->
+<script src="/js/main.js"></script>
