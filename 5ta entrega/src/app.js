@@ -38,7 +38,6 @@ app.use("/realtimeproducts", realTimeProducts);
 
 // Creo la instancia ProductManager y me traigo el array de products
 const productManager = new ProductManager();
-let allProducts = await productManager.getProducts();
 
 // Arranco mi webServer en el port 8080
 const webServer = app.listen(8080, () => {
@@ -49,22 +48,22 @@ const webServer = app.listen(8080, () => {
 const io = new Server(webServer);
 
 // Eventos de socket.io
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
   console.log("Nuevo cliente conectado!");
   // Envio los productos al cliente que se conectó
-  socket.emit("products", allProducts);
+  socket.emit("products", await productManager.getProducts());
 
   // Escucho si hay un nuevo producto y lo propago a todos
   socket.on("new-product", async (eLement) => {
     await productManager.addProduct(eLement);
     // Propago el evento a todos los clientes conectados
-    io.emit("products", allProducts);
+    io.emit("products", await productManager.getProducts());
   });
 
   // Si llega un id de producto para borrar, lo saco de la lista
   socket.on("del-product", async (eLement) => {
     await productManager.deleteProduct(eLement);
     // Propago el evento a todos los clientes conectados
-    io.emit("products", allProducts);
+    io.emit("products", await productManager.getProducts());
   });
 });
