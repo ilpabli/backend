@@ -6,7 +6,7 @@ export default class ProductManager {
   #id = 0;
   constructor() {
     // Uso this.path para definir la ruta del archivo
-    this.path = "./src/controllers/products.json";
+    this.path = "./src/services/products.json";
     if (!fs.existsSync(this.path)) {
       // si no existe el file lo escribo con un array vacio
       fs.writeFileSync(this.path, JSON.stringify([]));
@@ -60,7 +60,7 @@ export default class ProductManager {
       };
       // Si tengo ya productos, empiezo a sumar desde el ultimo id que tengo cargado en el file
       if (totalProducts.length > 0) {
-        this.#id = totalProducts[totalProducts.length - 1].id;
+        this.#id = totalProducts[totalProducts.length - 1]._id;
       }
       // Le agrego un id al product
       product.id = this.#getId();

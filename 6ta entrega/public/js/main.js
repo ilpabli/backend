@@ -14,13 +14,30 @@ function sendProduct() {
     stock: document.getElementById("stock").value,
     category: document.getElementById("category").value,
   };
+  if (
+    !newProduct.title ||
+    !newProduct.description ||
+    !newProduct.code ||
+    !newProduct.price ||
+    !newProduct.status ||
+    !newProduct.stock ||
+    !newProduct.category
+  ) {
+    return alert("Te falta completar un campo!");
+  }
   // Envío el producto agregado al servidor
   socket.emit("new-product", newProduct);
 }
 
-function deleteProduct(eLe) {
-  // Envio el producto borrado al servidor
-  socket.emit("del-product", eLe);
+function deleteProduct() {
+  rm = {
+    id: document.getElementById("delete").value,
+  };
+  if (!rm.id) {
+    return alert("Te falta completar el ID!");
+  }
+  //Envio el producto borrado al servidor
+  socket.emit("del-product", rm);
 }
 
 function render(data) {
@@ -28,7 +45,7 @@ function render(data) {
   cards.innerHTML = "";
   // Recorro el array con un foreach y genero las cards desde js
   data.forEach((element) => {
-    let { title, description, code, stock, category, id } = element;
+    let { title, description, code, stock, category, _id } = element;
     let div = document.createElement("div");
     div.className = "col my-2";
     div.innerHTML = `
@@ -48,8 +65,7 @@ function render(data) {
     ${element.category}
     <br />
     ID:
-    ${element.id}</p>
-    <button id="del${element.id}" class="btn btn-outline-danger" onclick="deleteProduct(${element.id})">Borrar Producto</button>
+    ${element._id}</p>
     </div>
   </div>`;
     cards.append(div);
@@ -59,8 +75,4 @@ function render(data) {
 // Escucho el evento messages y renderizo los mensajes
 socket.on("products", (data) => {
   render(data);
-});
-
-socket.on("test", (data) => {
-  console.log(data);
 });

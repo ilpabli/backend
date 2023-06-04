@@ -1,9 +1,12 @@
 // Importo express
 import express from "express";
 import handlerbars from "express-handlebars";
+import mongoose from "mongoose";
+
 import { productsRouter } from "./routers/products.router.js";
 import { cartsRouter } from "./routers/carts.router.js";
-import { realTimeProducts } from "./routers/realtimeproducts.router.js";
+import { realTimeProductsRouter } from "./routers/realtimeproducts.router.js";
+import { chatRouter } from "./routers/chat.router.js";
 import { initSocket } from "./socket.js";
 
 // Creo la app
@@ -33,7 +36,15 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 
 // Defino mi router de realTimeProducts
-app.use("/realtimeproducts", realTimeProducts);
+app.use("/realtimeproducts", realTimeProductsRouter);
+
+// Defino mi router de realTimeProducts
+app.use("/chat", chatRouter);
+
+// conecto a mi DB de Atlas
+mongoose.connect(
+  "mongodb+srv://pablog:test123@ecommerce.syrkwr1.mongodb.net/?retryWrites=true&w=majority"
+);
 
 // Arranco mi webServer en el port 8080
 const webServer = app.listen(8080, () => {

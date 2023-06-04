@@ -2,13 +2,13 @@ import { Router } from "express";
 import { io } from "../app.js";
 
 // Importo mi ProductManager
-import ProductManager from "../services/ProductManager.js";
+// import ProductManager from "../services/ProductManager.js";
+import ProductManager from "../services/product.service.js";
 
 // Creamos una instancia de la clase ProductManager
 const productManager = new ProductManager();
 
 // Creo mi ruta de productos
-
 const productsRouter = Router();
 
 // Defino la ruta para ver productos
@@ -32,7 +32,7 @@ productsRouter.get("/", async (req, res) => {
     }
   } catch (err) {
     // si hay un error lo envio
-    res.status(400).send({ err });
+    res.status(500).send({ err });
   }
 });
 
@@ -40,14 +40,12 @@ productsRouter.get("/", async (req, res) => {
 productsRouter.get("/:pid", async (req, res) => {
   // intento...
   try {
-    // obtengo el producto filtrado por id y parseado para que sea numero
-    let idFilter = await productManager.getProductById(
-      parseInt(req.params.pid)
-    );
+    // obtengo el producto filtrado por id y parseado para que sea numero * Si voy a usar FS necesito parsear el req.params.id
+    let idFilter = await productManager.getProductById(req.params.pid);
     res.status(201).send(idFilter);
   } catch (err) {
     // si hay un error lo envio
-    res.status(400).send({ err });
+    res.status(500).send({ err });
   }
 });
 
@@ -60,34 +58,32 @@ productsRouter.post("/", async (req, res) => {
     // Retorno 201 con el objeto creado y agregado
     res.status(201).send(newProduct);
   } catch (err) {
-    res.status(400).send({ err });
+    res.status(500).send({ err });
   }
 });
 
-// Defino la ruta PUT para actualizar un producto
+// Defino la ruta PUT para actualizar un producto * Si voy a usar FS necesito parsear el req.params.pid
 productsRouter.put("/:pid", async (req, res) => {
   try {
     const updateProduct = await productManager.updateProduct(
-      parseInt(req.params.pid),
+      req.params.pid,
       req.body
     );
     io.sockets.emit("products", await productManager.getProducts());
     res.status(201).send(updateProduct);
   } catch (err) {
-    res.status(400).send({ err });
+    res.status(500).send({ err });
   }
 });
 
-// Defino la ruta DELETE para eliminar un producto
+// Defino la ruta DELETE para eliminar un producto * Si voy a usar FS necesito parsear el req.params.pid
 productsRouter.delete("/:pid", async (req, res) => {
   try {
-    const deleteProduct = await productManager.deleteProduct(
-      parseInt(req.params.pid)
-    );
+    const deleteProduct = await productManager.deleteProduct(req.params.pid);
     io.sockets.emit("products", await productManager.getProducts());
-    res.status(201).send(deleteProduct);
+    res.status(204).send(deleteProduct);
   } catch (err) {
-    res.status(400).send({ err });
+    res.status(500).send({ err });
   }
 });
 
