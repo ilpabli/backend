@@ -1,0 +1,29 @@
+<header>
+  <nav class="p-3 mb-2 bg-primary text-white">
+    <div class="container-fluid">
+      <p class="fs-1 text-center">
+        Detalle de carrito
+      </p>
+    </div>
+  </nav>
+</header>
+<main>
+  <section>
+    {{#each filteredCart}}
+       <div class="container-fluid text-center mt-1">
+        <div class="row justify-content-md-center">
+          <div class="card mt-1" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{this.title}}</h5>
+              <p class="card-text">Cantidad:
+                {{this.quantity}}
+                <br />
+                ID:
+                {{this._id}}</p>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+    </div>
+  </section>
+</main>
