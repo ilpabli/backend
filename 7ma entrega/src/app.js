@@ -13,9 +13,6 @@ import { initSocket } from "./socket.js";
 // Creo la app
 const app = express();
 
-// Creo un server estatico de prueba
-app.use(express.static("public"));
-
 // Middelare para parseo de json
 app.use(express.json());
 
@@ -42,7 +39,7 @@ app.use("/realtimeproducts", realTimeProductsRouter);
 // Defino mi router de realTimeProducts
 app.use("/chat", chatRouter);
 
-// Defino mi router de realTimeProducts
+// Defino mi router de views
 app.use("/", viewsRouter);
 
 // conecto a mi DB de Atlas

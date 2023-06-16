@@ -50,18 +50,14 @@ viewsRouter.get("/products/:pid", async (req, res) => {
 // Defino la ruta para ver todo el contenido de un carrito
 viewsRouter.get("/carts/:cid", async (req, res) => {
   try {
-    let pid = req.params.cid;
+    let cid = req.params.cid;
     // obtengo el carrito con los products
-    const cart = await cartManager.getCartById(pid);
-    const filteredCart = cart.products.map((eLe) => {
-      const product = {};
-      product.title = eLe.product.title;
-      product.quantity = eLe.quantity;
-      product._id = eLe._id;
-      return product;
-    });
+    const cart = await cartManager.getCartById(cid);
     // envio la respuesta con el carrito filtrado
-    res.status(201).render("cartbyid", { filteredCart });
+    res.status(201).render("cartbyid", {
+      cart,
+      title: "Carrito ID: " + cid,
+    });
   } catch (err) {
     // si hay un error lo envio
     res.status(500).send({ err });

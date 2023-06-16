@@ -14,7 +14,10 @@ export default class CartManager {
 
   // Me traigo un carrito por id desde mi DB
   async getCartById(id) {
-    return await this.model.findOne({ _id: id }).populate("products.product");
+    return await this.model
+      .findOne({ _id: id })
+      .populate("products.product")
+      .lean();
   }
 
   // Agrego a un carrito el id del producto que quiero
