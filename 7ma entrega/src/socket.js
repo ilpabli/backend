@@ -15,7 +15,7 @@ export function initSocket(server) {
   io.on("connection", async (socket) => {
     console.log("Nuevo cliente conectado!");
     // Envio los productos al cliente que se conectó
-    socket.emit("products", await productManager.getProducts());
+    socket.emit("products", await productManager.getProductsforSocket());
     // Envio los todos los mensajes a los clientes del chat nuevos
     socket.emit("messages", await messageManager.allMessage());
 

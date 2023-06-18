@@ -56,9 +56,13 @@ export default class ProductManager {
     return await this.model.paginate(filter, options);
   }
 
+  async getProductsforSocket() {
+    return await this.model.find().lean();
+  }
+
   // Busco producto por ID
   async getProductById(id) {
-    return await this.model.findOne({ _id: id });
+    return await this.model.findOne({ _id: id }).lean();
   }
 
   // Actualizo un producto por ID
