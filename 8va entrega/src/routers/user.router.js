@@ -1,5 +1,5 @@
 import { Router } from "express";
-import UserService from "../dao/user.service.js";
+import UserService from "../dao/mongo/user.service.js";
 
 const userService = new UserService();
 

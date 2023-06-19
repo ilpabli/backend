@@ -2,8 +2,8 @@ import { Router } from "express";
 import { isAuth, isGuest } from "../middleware/auth.middleware.js";
 
 // Importo mi Product y Cart
-import ProductManager from "../dao/product.service.js";
-import CartManager from "../dao/cart.service.js";
+import ProductManager from "../dao/mongo/product.service.js";
+import CartManager from "../dao/mongo/cart.service.js";
 
 // Creamos una instancia de la clase ProductManager
 const productManager = new ProductManager();

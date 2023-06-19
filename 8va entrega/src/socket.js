@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 // import ProductManager from "./services/ProductManager.js";
-import ProductManager from "./dao/product.service.js";
-import MessageManager from "./dao/chat.service.js";
+import ProductManager from "./dao/mongo/product.service.js";
+import MessageManager from "./dao/mongo/chat.service.js";
 
 // Creo la instancia ProductManager y ChatManager y me traigo el array de products
 const productManager = new ProductManager();

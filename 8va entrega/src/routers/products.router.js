@@ -3,7 +3,7 @@ import { io } from "../app.js";
 
 // Importo mi ProductManager
 // import ProductManager from "../dao/ProductManager.js";
-import ProductManager from "../dao/product.service.js";
+import ProductManager from "../dao/mongo/product.service.js";
 
 // Creamos una instancia de la clase ProductManager
 const productManager = new ProductManager();

@@ -2,7 +2,7 @@ import { Router } from "express";
 
 // Importo mi ProductManager
 // import CartManager from "../services/CartManager.js";
-import CartManager from "../dao/cart.service.js";
+import CartManager from "../dao/mongo/cart.service.js";
 
 // Creamos una instancia de la clase ProductManager
 const cartManager = new CartManager();
