@@ -29,7 +29,10 @@ const incializePassport = () => {
               password: "",
               img: profile._json.avatar_url,
             };
+            const newCart = await cartManager.addCart({});
             user = await userService.createUser(newUser);
+            user.cart.push(newCart._id);
+            await user.save();
             done(null, user);
           } else {
             done(null, user);
