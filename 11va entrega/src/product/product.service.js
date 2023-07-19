@@ -1,25 +1,13 @@
-import { productModel } from "./models/product.model.js";
+import { productModel } from "./product.model.js";
 
 // Creo la clase Product Manager y la exporto de forma default
-export default class ProductManager {
+export default class ProductsService {
   constructor() {
     this.model = productModel;
   }
 
   // Agrego products a mi DB
   async addProduct(product) {
-    if (
-      !product.title ||
-      !product.description ||
-      !product.code ||
-      !product.price ||
-      !product.status ||
-      !product.stock ||
-      !product.category
-    ) {
-      console.log("Te falta completar un campo");
-      return "Te falta completar un campo";
-    }
     return await this.model.create(product);
   }
 
