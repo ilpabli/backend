@@ -1,9 +1,7 @@
 // Importo express
 import express from "express";
 import handlerbars from "express-handlebars";
-import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
-import session from "express-session";
 import passport from "passport";
 import incializePassport from "./config/passport.config.js";
 import enviroment from "./config/enviroment.js";
@@ -13,7 +11,7 @@ import { cartsRouter } from "./cart/cart.router.js";
 import { chatRouter } from "./chat/chat.router.js";
 import { viewsRouter } from "./view/views.router.js";
 import { usersRouter } from "./user/user.router.js";
-import { sessionsRouter } from "./routers/sessions.router.js";
+import { githubRouter } from "./github/github.router.js";
 import { initSocket } from "./socket.js";
 
 // Creo la app
@@ -32,29 +30,9 @@ app.set("view engine", "handlebars");
 // Directorio publico para files statics
 app.use(express.static("public"));
 
-// Sessions
-
-if (enviroment.PERSISTENCE.toLowerCase() === "mongo") {
-  app.use(
-    session({
-      store: MongoStore.create({
-        mongoUrl: enviroment.DB,
-        mongoOptions: {
-          useNewUrlParser: true,
-        },
-        ttl: 2000,
-      }),
-      secret: enviroment.SECRET,
-      resave: true,
-      saveUninitialized: true,
-    })
-  );
-}
-
 // Inicializo Passport
 incializePassport();
 app.use(passport.initialize());
-app.use(passport.session());
 
 // Routers
 app.use("/api/products", productsRouter);
@@ -62,7 +40,7 @@ app.use("/api/carts", cartsRouter);
 app.use("/chat", chatRouter);
 app.use("/", viewsRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/sessions", sessionsRouter);
+app.use("/api/sessions", githubRouter);
 
 // Arranco mi webServer en el port 8080
 const webServer = app.listen(enviroment.PORT, () => {

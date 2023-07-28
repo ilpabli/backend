@@ -1,4 +1,4 @@
-export default class ProductFactory {
+export default class ProductRepository {
   constructor(dao) {
     this.dao = dao;
   }

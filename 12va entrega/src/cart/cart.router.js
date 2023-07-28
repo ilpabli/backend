@@ -1,8 +1,8 @@
 import { Router } from "express";
-import CartFactory from "./cart.factory.js";
+import CartRepository from "./cart.repository.js";
 import { Carts } from "../config/factory.js";
 
-const cartController = new CartFactory(new Carts());
+const cartController = new CartRepository(new Carts());
 const cartsRouter = Router();
 
 // Defino la ruta POST para crear un nuevo carrito

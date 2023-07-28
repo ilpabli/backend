@@ -1,16 +1,28 @@
 import passport from "passport";
 import local from "passport-local";
 import GitHubStrategy from "passport-github2";
-import UserFactory from "../user/user.factory.js";
-import CartFactory from "../cart/cart.factory.js";
+import { Strategy, ExtractJwt } from "passport-jwt";
+import UserRepository from "../user/user.repository.js";
+import CartRepository from "../cart/cart.repository.js";
 import { Users, Carts } from "./factory.js";
 import enviroment from "./enviroment.js";
 import { comparePassword, hashPassword } from "../utils/encript.util.js";
 
 const LocalStrategy = local.Strategy;
 
-const cartController = new CartFactory(new Carts());
-const userController = new UserFactory(new Users());
+const jwtStrategy = Strategy;
+const jwtExtract = ExtractJwt;
+
+const cartController = new CartRepository(new Carts());
+const userController = new UserRepository(new Users());
+
+const cookieExtractor = (req) => {
+  let token = null;
+  if (req && req.cookies) {
+    token = req.cookies["token"];
+  }
+  return token;
+};
 
 const incializePassport = () => {
   passport.use(
@@ -99,6 +111,25 @@ const incializePassport = () => {
         }
       }
     )
+  );
+  passport.use(
+    "jwt",
+    new jwtStrategy(
+      {
+        jwtFromRequest: jwtExtract.fromExtractors([cookieExtractor]),
+        secretOrKey: enviroment.SECRET,
+      },
+      (payload, done) => {
+        done(null, payload);
+      }
+    ),
+    async (payload, done) => {
+      try {
+        return done(null, payload);
+      } catch (error) {
+        done(error);
+      }
+    }
   );
 
   passport.serializeUser((user, done) => {

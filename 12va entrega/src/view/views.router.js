@@ -1,18 +1,17 @@
 import { Router } from "express";
-import { isAuth, isGuest } from "../middleware/auth.middleware.js";
-import ProductFactory from "../product/product.factory.js";
-import CartFactory from "../cart/cart.factory.js";
+import ProductRepository from "../product/product.repository.js";
+import CartRepository from "../cart/cart.repository.js";
 import { Products, Carts } from "../config/factory.js";
+import { middlewarePassportJWT, isAuth } from "../middleware/jwt.middleware.js";
 
-const productController = new ProductFactory(new Products());
-const cartController = new CartFactory(new Carts());
+const productController = new ProductRepository(new Products());
+const cartController = new CartRepository(new Carts());
 const viewsRouter = Router();
 
 // Definimos la ruta de /products
-viewsRouter.get("/products", isAuth, async (req, res) => {
-  const { user } = req.session;
-  delete user.password;
+viewsRouter.get("/products", middlewarePassportJWT, async (req, res) => {
   try {
+    const user = req.user;
     let limit = parseInt(req.query.limit) || 10;
     let page = parseInt(req.query.page) || 1;
     let query = req.query;
@@ -37,10 +36,9 @@ viewsRouter.get("/products", isAuth, async (req, res) => {
 });
 
 // Defino la ruta para ver los products por id
-viewsRouter.get("/products/:pid", isAuth, async (req, res) => {
-  const { user } = req.session;
-  delete user.password;
+viewsRouter.get("/products/:pid", middlewarePassportJWT, async (req, res) => {
   try {
+    const user = req.user;
     let pid = req.params.pid;
     // obtengo todos los productos
     const product = await productController.getProductById(pid);
@@ -59,10 +57,9 @@ viewsRouter.get("/products/:pid", isAuth, async (req, res) => {
 });
 
 // Defino la ruta para ver todo el contenido de un carrito
-viewsRouter.get("/carts/:cid", isAuth, async (req, res) => {
-  const { user } = req.session;
-  delete user.password;
+viewsRouter.get("/carts/:cid", middlewarePassportJWT, async (req, res) => {
   try {
+    const user = req.user;
     let cid = req.params.cid;
     // obtengo el carrito con los products
     const cart = await cartController.getCartById(cid);
@@ -81,9 +78,8 @@ viewsRouter.get("/carts/:cid", isAuth, async (req, res) => {
 });
 
 // Defino la ruta para ver el index
-viewsRouter.get("/", isAuth, (req, res) => {
-  const { user } = req.session;
-  delete user.password;
+viewsRouter.get("/", middlewarePassportJWT, (req, res) => {
+  const user = req.user;
   res.render("index", {
     title: "Perfil de Usuario",
     user,
@@ -92,7 +88,7 @@ viewsRouter.get("/", isAuth, (req, res) => {
 });
 
 // Defino la ruta para ver el register
-viewsRouter.get("/register", isGuest, (req, res) => {
+viewsRouter.get("/register", isAuth, (req, res) => {
   res.render("register", {
     title: "Registrar Nuevo Usuario",
   });
@@ -102,14 +98,13 @@ viewsRouter.get("/register", isGuest, (req, res) => {
 viewsRouter.get("/registerfail", (req, res) => {
   res.render("error", {
     title: "Falla en el registro!",
-    error: req.session.messages,
+    error: "Algo ocurrio durante el registro!",
     return: "/register",
   });
-  delete req.session.messages;
 });
 
 // Defino la ruta para ver el login
-viewsRouter.get("/login", isGuest, (req, res) => {
+viewsRouter.get("/login", isAuth, (req, res) => {
   res.render("login", {
     title: "Inicio de Sesión",
   });
@@ -119,10 +114,9 @@ viewsRouter.get("/login", isGuest, (req, res) => {
 viewsRouter.get("/loginfail", (req, res) => {
   res.render("error", {
     title: "Falla en el login!",
-    error: req.session.messages,
+    error: "Revisas los datos de logeo",
     return: "/login",
   });
-  delete req.session.messages;
 });
 
 // Exportamos el router

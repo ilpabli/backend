@@ -1,8 +1,8 @@
 import { Router } from "express";
-import ProductFactory from "./product.factory.js";
+import ProductRepository from "./product.repository.js";
 import { Products } from "../config/factory.js";
 
-const productController = new ProductFactory(new Products());
+const productController = new ProductRepository(new Products());
 const productsRouter = Router();
 
 // Defino la ruta para ver productos
