@@ -7,7 +7,24 @@ let Carts;
 let Chats;
 switch (enviroment.PERSISTENCE.toLowerCase()) {
   case "filesystem":
-    console.log("entre al file");
+    const { default: UserFileDAO } = await import(
+      "../user/dao/userFile.dao.js"
+    );
+    Users = UserFileDAO;
+    const { default: ProductFileDAO } = await import(
+      "../product/dao/productFile.dao.js"
+    );
+    Products = ProductFileDAO;
+
+    const { default: CartFileDAO } = await import(
+      "../cart/dao/cartFile.dao.js"
+    );
+    Carts = CartFileDAO;
+    const { default: ChatFileDAO } = await import(
+      "../chat/dao/chatFile.dao.js"
+    );
+    Chats = ChatFileDAO;
+    console.log("Configuracion FileSystem Cargada con exito");
     break;
 
   case "mongo":
@@ -30,10 +47,11 @@ switch (enviroment.PERSISTENCE.toLowerCase()) {
       "../chat/dao/chatMongo.dao.js"
     );
     Chats = ChatMongoDAO;
+    console.log("Configuracion MongoDB Cargada con exito");
     break;
 
   default:
-    console.log("no anotaste nada valido asi que file");
+    console.log("no anotaste nada valido");
     break;
 }
 
