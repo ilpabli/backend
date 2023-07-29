@@ -1,8 +1,10 @@
 import { Server } from "socket.io";
-import messageController from "./chat/chat.controller.js";
+import { Chats } from "../config/factory.js";
+import ChatRepository from "./chat.repository.js";
 
 // Función para inicializar el socket.io
 export function initSocket(server) {
+  const messageController = new ChatRepository(new Chats());
   const io = new Server(server);
 
   // Eventos de socket.io

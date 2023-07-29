@@ -1,6 +1,10 @@
 import { Router } from "express";
 import ProductRepository from "./product.repository.js";
 import { Products } from "../config/factory.js";
+import {
+  middlewarePassportJWT,
+  isAdmin,
+} from "../middleware/jwt.middleware.js";
 
 const productController = new ProductRepository(new Products());
 const productsRouter = Router();
@@ -40,7 +44,7 @@ productsRouter.get("/:pid", async (req, res) => {
 });
 
 // Defino la ruta POST para agregar un nuevo producto
-productsRouter.post("/", async (req, res) => {
+productsRouter.post("/", middlewarePassportJWT, isAdmin, async (req, res) => {
   try {
     // uso mi metodo addproduct para agregar el producto al array de products
     const newProduct = await productController.addProduct(req.body);
@@ -52,27 +56,39 @@ productsRouter.post("/", async (req, res) => {
 });
 
 // Defino la ruta PUT para actualizar un producto * Si voy a usar FS necesito parsear el req.params.pid
-productsRouter.put("/:pid", async (req, res) => {
-  try {
-    const updateProduct = await productController.updateProduct(
-      req.params.pid,
-      req.body
-    );
-    res.status(201).send(updateProduct);
-  } catch (err) {
-    res.status(500).send({ err });
+productsRouter.put(
+  "/:pid",
+  middlewarePassportJWT,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const updateProduct = await productController.updateProduct(
+        req.params.pid,
+        req.body
+      );
+      res.status(201).send(updateProduct);
+    } catch (err) {
+      res.status(500).send({ err });
+    }
   }
-});
+);
 
 // Defino la ruta DELETE para eliminar un producto * Si voy a usar FS necesito parsear el req.params.pid
-productsRouter.delete("/:pid", async (req, res) => {
-  try {
-    const deleteProduct = await productController.deleteProduct(req.params.pid);
-    res.status(204).send(deleteProduct);
-  } catch (err) {
-    res.status(500).send({ err });
+productsRouter.delete(
+  "/:pid",
+  middlewarePassportJWT,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const deleteProduct = await productController.deleteProduct(
+        req.params.pid
+      );
+      res.status(204).send(deleteProduct);
+    } catch (err) {
+      res.status(500).send({ err });
+    }
   }
-});
+);
 
 // Exporto la ruta
 export { productsRouter };

@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 let Users;
 let Products;
 let Carts;
+let Chats;
 switch (enviroment.PERSISTENCE.toLowerCase()) {
   case "filesystem":
     console.log("entre al file");
@@ -24,6 +25,11 @@ switch (enviroment.PERSISTENCE.toLowerCase()) {
       "../cart/dao/cartMongo.dao.js"
     );
     Carts = CartMongoDAO;
+
+    const { default: ChatMongoDAO } = await import(
+      "../chat/dao/chatMongo.dao.js"
+    );
+    Chats = ChatMongoDAO;
     break;
 
   default:
@@ -31,4 +37,4 @@ switch (enviroment.PERSISTENCE.toLowerCase()) {
     break;
 }
 
-export { Users, Products, Carts };
+export { Users, Products, Carts, Chats };

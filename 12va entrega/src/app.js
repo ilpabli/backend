@@ -12,7 +12,7 @@ import { chatRouter } from "./chat/chat.router.js";
 import { viewsRouter } from "./view/views.router.js";
 import { usersRouter } from "./user/user.router.js";
 import { githubRouter } from "./github/github.router.js";
-import { initSocket } from "./socket.js";
+import { initSocket } from "./chat/chat.socket.js";
 
 // Creo la app
 const app = express();

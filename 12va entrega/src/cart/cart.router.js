@@ -96,5 +96,14 @@ cartsRouter.delete("/:cid", async (req, res) => {
   }
 });
 
+cartsRouter.post("/:cid/purchase/", async (req, res) => {
+  try {
+    const purchase = await cartController.purchaseCart(req.params.cid);
+    res.status(201).send(purchase);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+});
+
 // Exporto la ruta
 export { cartsRouter };

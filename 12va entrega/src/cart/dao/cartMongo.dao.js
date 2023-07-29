@@ -1,5 +1,7 @@
 import { cartModel } from "../model/cart.model.js";
 import { productModel } from "../../product/model/product.model.js";
+import { ticketModel } from "../model/ticket.model.js";
+import { userModel } from "../../user/model/user.model.js";
 
 // Creo la clase Cart Manager y la exporto de forma default
 export default class CartMongoDAO {
@@ -87,5 +89,39 @@ export default class CartMongoDAO {
     const cart = await this.model.findOne({ _id: cid });
     cart.products = [];
     return cart.save();
+  }
+
+  async purchaseCart(cid) {
+    const cart = await this.model
+      .findOne({ _id: cid })
+      .populate("products.product");
+    const code = Math.random().toString(36).substring(2, 8);
+    const user = await userModel.findOne({ cart: cid });
+    let total = 0;
+    for (const item of cart.products) {
+      const productId = item.product._id;
+      const quantity = item.quantity;
+      const product = await productModel.findOne({ _id: productId });
+      if (product.stock >= quantity) {
+        product.stock -= quantity;
+        await product.save();
+
+        total += item.product.price * quantity;
+
+        await this.model.findByIdAndUpdate(
+          cid,
+          {
+            $pull: { products: { product: productId } },
+          },
+          { new: true }
+        );
+      }
+    }
+    await cart.save();
+    if (total === 0) {
+      return { message: "No tenes elementos validos para procesar tu compra." };
+    }
+    const ticket = { code: code, amount: total, purchaser: user.email };
+    return await ticketModel.create(ticket);
   }
 }

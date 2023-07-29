@@ -42,4 +42,17 @@ const isAuth = async (req, res, next) => {
   }
 };
 
-export { generateToken, middlewarePassportJWT, isAuth };
+const isAdmin = async (req, res, next) => {
+  try {
+    const userRole = req.user && req.user.role;
+    if (userRole === "admin") {
+      next();
+    } else {
+      throw new Error("Acceso denegado. Debes ser administrador.");
+    }
+  } catch (error) {
+    res.status(403).json({ error: error.message });
+  }
+};
+
+export { generateToken, middlewarePassportJWT, isAuth, isAdmin };

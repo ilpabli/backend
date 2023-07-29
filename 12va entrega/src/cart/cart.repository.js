@@ -35,4 +35,8 @@ export default class CartRepository {
   async emptyCart(cid) {
     return await this.dao.emptyCart(cid);
   }
+
+  async purchaseCart(cid) {
+    return await this.dao.purchaseCart(cid);
+  }
 }

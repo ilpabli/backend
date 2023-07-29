@@ -24,9 +24,6 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/">
                   Bienvenido
-                  {{#if admin}}
-                    Administrador
-                  {{/if}}
                   {{user.first_name}}
                   {{user.last_name}}
                   <img
@@ -35,6 +32,15 @@
                     style="border-radius: 50%; max-height: 30px;"
                   /></a>
               </li>
+              {{#if admin}}
+                <li class="nav-item">
+                  <a class="nav-link active" href="/admin/"><button
+                      class="btn btn-danger"
+                    >
+                      Administracion
+                    </button></a>
+                </li>
+              {{/if}}
               <li class="nav-item">
                 <a class="nav-link active" href="/carts/{{idcart}}"><button
                     class="btn btn-success"
