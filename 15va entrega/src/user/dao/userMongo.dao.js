@@ -60,7 +60,7 @@ export default class UserMongoDAO {
     const recoveryLink = `http://127.0.0.1:8080/renewpassword?email=${user}&token=${token}`;
     const mailOptions = {
       from: "Request <gonzalez.e.pablo@gmail.com>",
-      to: "gonzalez.e.pablo@gmail.com",
+      to: user,
       subject: "Recuperacion de password",
       html: `En el siguiente enlance podras generar una nueva password <br> ${recoveryLink}`,
     };
