@@ -3,6 +3,8 @@ import express from "express";
 import handlerbars from "express-handlebars";
 import cookieParser from "cookie-parser";
 import passport from "passport";
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 import incializePassport from "./config/passport.config.js";
 import enviroment from "./config/enviroment.js";
 import { loggerMiddleware } from "./middleware/logger.middleware.js";
@@ -19,6 +21,21 @@ import { loggerRouter } from "./logger/logger.router.js";
 
 // Creo la app
 const app = express();
+
+// Swagger para documentar
+
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "Mi E-Commerce",
+      version: "1.0.0",
+      description: "Sitio en testing",
+    },
+  },
+  apis: ["**/docs/**/*.yaml"],
+};
+const spects = swaggerJsDoc(swaggerOptions);
 
 // Middleware
 app.use(express.json());
@@ -47,6 +64,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/sessions", githubRouter);
 app.use("/mockingproducts", mockingRouter);
 app.use("/loggerTest", loggerRouter);
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(spects));
 
 // Arranco mi webServer en el port 8080
 const webServer = app.listen(enviroment.PORT, () => {
