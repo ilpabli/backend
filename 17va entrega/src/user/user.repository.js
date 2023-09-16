@@ -30,4 +30,8 @@ export default class UserRepository {
   async getById(id) {
     return await this.dao.getById(id);
   }
+
+  async deleteUser(id) {
+    return await this.dao.deleteUser(id);
+  }
 }

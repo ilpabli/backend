@@ -95,6 +95,19 @@ cartsRouter.delete("/:cid", middlewarePassportJWT, async (req, res) => {
   }
 });
 
+cartsRouter.delete(
+  "/destroy/:cid/",
+  middlewarePassportJWT,
+  async (req, res) => {
+    try {
+      const empty = await cartController.deleteCart(req.params.cid);
+      res.status(201).send(empty);
+    } catch (err) {
+      res.status(500).send({ err });
+    }
+  }
+);
+
 cartsRouter.post("/:cid/purchase/", middlewarePassportJWT, async (req, res) => {
   try {
     const purchase = await cartController.purchaseCart(req.params.cid);

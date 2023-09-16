@@ -140,4 +140,8 @@ export default class CartMongoDAO {
     const ticket = { code: code, amount: total, purchaser: user.email };
     return await ticketModel.create(ticket);
   }
+
+  async deleteCart(cid) {
+    return this.model.deleteOne({ _id: cid });
+  }
 }

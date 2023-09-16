@@ -29,7 +29,7 @@ export default class ProductRepository {
 
   // Busco en la DB todos los products y los devuelvo
   async getProducts(limit, page, query) {
-    return await this.dap.getProducts(limit, page, query);
+    return await this.dao.getProducts(limit, page, query);
   }
 
   async getProductsforView(limit, page, query) {

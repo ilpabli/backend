@@ -25,7 +25,7 @@ export default class ProductMongoDAO {
     if (query?.sort) {
       options.sort = { price: query.sort };
     }
-    return await this.model.paginate(filter, options);
+    return await this.model.find(filter, options);
   }
 
   async getProductsforView(limit, page, query) {

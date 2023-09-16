@@ -19,7 +19,7 @@ usersRouter.post(
     session: false,
   }),
   async (req, res) => {
-    res.redirect("/");
+    res.send(req.user);
   }
 );
 
@@ -94,5 +94,16 @@ usersRouter.post(
     }
   }
 );
+
+usersRouter.delete("/:uid", async (req, res) => {
+  try {
+    const result = await userController.deleteUser(req.params.uid);
+    res
+      .status(200)
+      .json({ message: "Usuario borrado segun id: " + req.params.uid });
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
 
 export { usersRouter };

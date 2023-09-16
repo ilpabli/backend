@@ -67,4 +67,8 @@ export default class UserMongoDAO {
     this.mailingService.sendMail(mailOptions);
     return validUser;
   }
+
+  async deleteUser(id) {
+    return this.model.deleteOne({ _id: id });
+  }
 }
